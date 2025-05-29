@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Pérdida de Peso - Dieta Peruana y Rutina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+        
+        .tab-container {
+            margin-bottom: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .diet-day {
+            background: #f8f9ff;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .day-title {
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .meal {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .meal-title {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .exercise-section {
+            margin: 20px 0;
+            padding: 25px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border-left: 5px solid #764ba2;
+        }
+        
+        .exercise-title {
+            color: #764ba2;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .exercise-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .exercise-name {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .exercise-details {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .exercise-description {
+            font-size: 0.9em;
+            color: #777;
+            line-height: 1.4;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .tip-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .avoid-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .avoid-item {
+            background: #fee;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .recommend-item {
+            background: #efe;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .medical-section {
+            background: #f0f8ff;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #17a2b8;
+            margin: 20px 0;
+        }
+        
+        .prep-tips {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+            
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏃‍♂️ Plan de Pérdida de Peso Personalizado</h1>
+            <p>Dieta peruana práctica + Rutina de gimnasio moderada</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number">115kg</span>
+                    <span>Peso Actual</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">1.80m</span>
+                    <span>Estatura</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">25</span>
+                    <span>Años</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">35.5</span>
+                    <span>IMC (Obesidad I)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('diet')">🍽️ Dieta Peruana</button>
+                <button class="tab-button" onclick="showTab('exercise')">💪 Rutina Gimnasio</button>
+                <button class="tab-button" onclick="showTab('avoid')">🚫 Qué Evitar</button>
+                <button class="tab-button" onclick="showTab('medical')">🏥 Evaluación Médica</button>
+            </div>
+            
+            <div id="diet" class="tab-content active">
+                <h2>Plan de Alimentación Gradual - Comida Peruana</h2>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> Este plan reduce gradualmente las porciones sin cambios drásticos. Adaptado a tu horario universitario y ingredientes peruanos accesibles.
+                </div>
+                
+                <div class="diet-day">
+                    <div class="day-title">📅 LUNES Y MIÉRCOLES (Días de cocina)</div>
+                    
+                    <div class="meal">
+                        <div class="meal-title">🌅 Desayuno (7:00 AM)</div>
+                        • Pan integral con palta + 1 huevo sancochado<br>
+                        • Té verde o café sin azúcar<br>
+                        • 1 plátano pequeño
+                    </div>
+                    
+                    <div class="meal">
+                        <div class="meal-title">🍽️ Almuerzo (1:00 PM)</div>
+                        • Arroz integral (3/4 taza) + pollo a la plancha (150g)<br>
+                        • Ensalada criolla (cebolla, tomate, limón)<br>
+                        • Menestra de lentejas<br>
+                        • Agua de limón sin azúcar
+                    </div>
+                    
+                    <div class="meal">
+                        <div class="meal-title">🥪 Merienda (4:00 PM)</div>
+                        • Yogurt natural + granola casera<br>
+                        O frutas de estación (manzana, pera)
+                    </div>
+                    
+                    <div class="meal">
+                        <div class="meal-title">🌙 Cena (7:30 PM)</div>
+                        • Sopa de verduras con quinua<br>
+                        • Tortilla de verduras<br>
+                        • Infusión de manzanilla
+                    </div>
+                    
+                    <div class="prep-tips">
+                        <strong>📝 Preparación para la semana:</strong><br>
+                        • Cocina arroz integral y quinua en cantidad para 3 días<br>
+                        • Prepara pollo a la plancha porcionado<br>
+                        • Corta verduras para ensaladas<br>
+                        • Prepara sopas en porciones individuales para congelar
+                    </div>
+                </div>
+                
+                <div class="diet-day">
+                    <div class="day-title">📅 MARTES, JUEVES, VIERNES Y SÁBADOS (Días ocupados)</div>
+                    
+                    <div class="meal">
+                        <div class="meal-title">🌅 Desayuno rápido (6:00 AM)</div>
+                        • Avena instantánea con leche descremada y canela<br>
+                        • 1 plátano<br>
+                        • Café negro o té verde
+                    </div>
+                    
+                    <div class="meal">
+                        <div class="meal-title">🥪 Almuerzo (universidad)</div>
+                        • Causa limeña pequeña (con atún)<br>
+                        • Ensalada de frutas<br>
+                        • Agua sin gas<br>
+                        <em>O si comes en casa de universidad: pollo/pescado a la plancha + ensalada</em>
+                    </div>
+                    
+                    <div class="meal">
+                        <div class="meal-title">🍽️ Cena fácil (7:30 PM - llegas cansado)</div>
+                        <strong>Opciones rápidas:</strong><br>
+                        • Sopa precocida (del refrigerador) + pan integral<br>
+                        • Tortilla de huevos con verduras congeladas<br>
+                        • Quinua precocida + atún + palta<br>
+                        • Pollo precocido + ensalada rápida
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Tips para el éxito:</strong><br>
+                    • Mastica lento y come sin distracciones<br>
+                    • Usa platos más pequeños para controlar porciones<br>
+                    • Toma 2 vasos de agua antes de cada comida<br>
+                    • Ten siempre frutas cortadas listas en el refrigerador
+                </div>
+            </div>
+            
+            <div id="exercise" class="tab-content">
+                <h2>Rutina de Gimnasio - Progresión Moderada</h2>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Recordatorio:</strong> Rutina diseñada para NO afectar tus clases de martes, jueves y viernes. Intensidad moderada para evitar dolor muscular excesivo.
+                </div>
+                
+                <div class="exercise-section">
+                    <div class="exercise-title">🗓️ MARTES - Cardio + Tren Superior Ligero</div>
+                    <div class="exercise-grid">
+                        <div class="exercise-card">
+                            <div class="exercise-name">🏃‍♂️ Caminata en Cinta</div>
+                            <div class="exercise-details">20-25 minutos | Velocidad 5-6 km/h | Inclinación 2-3%</div>
+                            <div class="exercise-description">Mantén un ritmo donde puedas conversar. Si te sientes bien, aumenta 1 km/h los últimos 5 minutos.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">💪 Press de Pecho (Máquina)</div>
+                            <div class="exercise-details">3 series × 12-15 repeticiones | Peso moderado</div>
+                            <div class="exercise-description">Siéntate con espalda apoyada, agarra las manijas y empuja hacia adelante controladamente.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🔙 Remo Sentado (Máquina)</div>
+                            <div class="exercise-details">3 series × 12-15 repeticiones</div>
+                            <div class="exercise-description">Siéntate con pecho hacia la almohadilla, tira de las manijas hacia tu abdomen.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🤲 Press de Hombros (Máquina)</div>
+                            <div class="exercise-details">2 series × 10-12 repeticiones</div>
+                            <div class="exercise-description">Sentado, empuja las manijas hacia arriba sin arquear la espalda.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise-section">
+                    <div class="exercise-title">🗓️ JUEVES - Cardio + Tren Inferior Suave</div>
+                    <div class="exercise-grid">
+                        <div class="exercise-card">
+                            <div class="exercise-name">🚴‍♂️ Bicicleta Estática</div>
+                            <div class="exercise-details">20-25 minutos | Resistencia baja-media</div>
+                            <div class="exercise-description">Pedalea a ritmo constante. Debes poder mantener una conversación.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🦵 Prensa de Piernas</div>
+                            <div class="exercise-details">3 series × 12-15 repeticiones | Peso ligero</div>
+                            <div class="exercise-description">Acostado en la máquina, pies separados al ancho de hombros, baja controlado.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🏋️‍♂️ Extensión de Cuádriceps</div>
+                            <div class="exercise-details">2 series × 12 repeticiones</div>
+                            <div class="exercise-description">Sentado en la máquina, extiende las piernas lentamente.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🦵 Curl de Femoral</div>
+                            <div class="exercise-details">2 series × 12 repeticiones</div>
+                            <div class="exercise-description">Boca abajo o sentado, flexiona las piernas llevando talones hacia glúteos.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise-section">
+                    <div class="exercise-title">🗓️ SÁBADO - Cardio Mixto + Core Ligero</div>
+                    <div class="exercise-grid">
+                        <div class="exercise-card">
+                            <div class="exercise-name">🔄 Cardio Mixto</div>
+                            <div class="exercise-details">10 min cinta + 10 min bicicleta + 5 min elíptica</div>
+                            <div class="exercise-description">Cambio de actividad cada 10 minutos para no aburrirte.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🏋️‍♂️ Plancha</div>
+                            <div class="exercise-details">3 series × 20-30 segundos</div>
+                            <div class="exercise-description">Apoyado en antebrazos y pies, mantén el cuerpo recto. Descansa 1 minuto entre series.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🔄 Abdominales en Máquina</div>
+                            <div class="exercise-details">2 series × 15 repeticiones</div>
+                            <div class="exercise-description">Sentado en la máquina, contrae el abdomen llevando el pecho hacia las rodillas.</div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🧘‍♂️ Estiramiento</div>
+                            <div class="exercise-details">10-15 minutos</div>
+                            <div class="exercise-description">Estira piernas, espalda y brazos. Muy importante para la recuperación.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>📋 Progresión semanal:</strong><br>
+                    • Semana 1-2: Adapta tu cuerpo, no fuerces<br>
+                    • Semana 3-4: Aumenta 5 minutos de cardio<br>
+                    • Semana 5+: Aumenta peso gradualmente en máquinas<br>
+                    <br>
+                    <strong>🎯 Objetivo:</strong> Crear el hábito sin dolor excesivo que afecte tus estudios.
+                </div>
+            </div>
+            
+            <div id="avoid" class="tab-content">
+                <h2>🚫 Alimentos y Bebidas a Evitar/Reducir</h2>
+                
+                <h3>❌ EVITAR COMPLETAMENTE (Primeras 4 semanas)</h3>
+                <div class="avoid-list">
+                    <div class="avoid-item">
+                        <strong>🥤 Bebidas Azucaradas</strong><br>
+                        Inca Kola, Coca Cola, jugos procesados, bebidas energéticas
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🍟 Frituras</strong><br>
+                        Papas fritas, pollo broaster, chicharrones
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🍰 Dulces Procesados</strong><br>
+                        Tortas, pasteles, chocolates, caramelos
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🥪 Comida Chatarra</strong><br>
+                        Hamburguesas, pizza, hot dogs
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🍺 Alcohol</strong><br>
+                        Cerveza, licores (muchas calorías vacías)
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🥨 Snacks Procesados</strong><br>
+                        Papitas, galletas saladas, chizitos
+                    </div>
+                </div>
+                
+                <h3>⚠️ REDUCIR GRADUALMENTE</h3>
+                <div class="avoid-list">
+                    <div class="avoid-item">
+                        <strong>🍚 Arroz Blanco</strong><br>
+                        Reduce la porción a 3/4 taza, cambia a integral gradualmente
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🍞 Pan Blanco</strong><br>
+                        Máximo 2 panes por día, prefiere integral
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🧈 Aceites/Manteca</strong><br>
+                        Cocina con menos aceite, usa spray antiadherente
+                    </div>
+                    <div class="avoid-item">
+                        <strong>🥩 Carnes Grasas</strong><br>
+                        Reduce costillas, tocino, embutidos
+                    </div>
+                </div>
+                
+                <h3>✅ ALTERNATIVAS SALUDABLES</h3>
+                <div class="avoid-list">
+                    <div class="recommend-item">
+                        <strong>💧 En vez de gaseosas</strong><br>
+                        Agua con limón, té verde, infusiones
+                    </div>
+                    <div class="recommend-item">
+                        <strong>🍊 En vez de dulces</strong><br>
+                        Frutas frescas, yogurt natural con miel
+                    </div>
+                    <div class="recommend-item">
+                        <strong>🥜 En vez de snacks</strong><br>
+                        Frutos secos (pequeña porción), frutas
+                    </div>
+                    <div class="recommend-item">
+                        <strong>🐟 En vez de frituras</strong><br>
+                        Pescado/pollo a la plancha, al horno
+                    </div>
+                    <div class="recommend-item">
+                        <strong>🫖 Bebidas recomendadas</strong><br>
+                        Té verde, agua de limón, infusiones de hierbas
+                    </div>
+                    <div class="recommend-item">
+                        <strong>🌿 Condimentos naturales</strong><br>
+                        Limón, ajo, cebolla, hierbas frescas
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>🎯 Estrategia de Transición (Para evitar ansiedad):</strong><br>
+                    • Semana 1-2: Elimina solo las gaseosas<br>
+                    • Semana 3-4: Reduce frituras a 1 vez por semana<br>
+                    • Semana 5-6: Cambia snacks por frutas<br>
+                    • Semana 7+: Implementa todos los cambios<br>
+                    <br>
+                    <strong>💡 Tip mental:</strong> No te prives totalmente. 1 vez por semana puedes comer algo que te guste (con moderación).
+                </div>
+            </div>
+            
+            <div id="medical" class="tab-content">
+                <h2>🏥 Evaluación Médica Prioritaria</h2>
+                
+                <div class="medical-section">
+                    <h3>🩺 EXÁMENES ESENCIALES (Prioridad Alta)</h3>
+                    
+                    <div class="exercise-card">
+                        <div class="exercise-name">🩸 Análisis de Sangre Completo</div>
+                        <div class="exercise-details">Perfil lipídico, glucosa, función tiroidea</div>
+                        <div class="exercise-description">
+                            <strong>Por qué:</strong> Detecta diabetes, colesterol alto, problemas de tiroides<br>
+                            <strong>Costo aprox:</strong> S/. 150-200<br>
+                            <strong>Ayuno:</strong> 12 horas
+                        </div>
+                    </div>
+                    
+                    <div class="exercise-card">
+                        <div class="exercise-name">❤️ Electrocardiograma</div>
+                        <div class="exercise-details">Evaluación cardíaca básica</div>
+                        <div class="exercise-description">
+                            <strong>Por qué:</strong> El sobrepeso puede afectar el corazón<br>
+                            <strong>Costo aprox:</strong> S/. 50-80<br>
+                            <strong>Tiempo:</strong> 10 minutos
+                        </div>
+                    </div>
+                    
+                    <div class="exercise-card">
+                        <div class="exercise-name">🩺 Consulta Endocrinológica</div>
+                        <div class="exercise-details">Especialista en metabolismo</div>
+                        <div class="exercise-description">
+                            <strong>Por qué:</strong> Evalúa causas hormonales del sobrepeso<br>
+                            <strong>Costo aprox:</strong> S/. 120-200<br>
+                            <strong>Incluye:</strong> Evaluación completa + plan personalizado
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medical-section">
+                    <h3>🏥 DÓNDE HACERTE LOS EXÁMENES EN LIMA</h3>
+                    
+                    <div class="exercise-grid">
+                        <div class="exercise-card">
+                            <div class="exercise-name">🏥 Opciones Económicas</div>
+                            <div class="exercise-description">
+                                • <strong>Centros Médicos Municipales</strong><br>
+                                • <strong>Laboratorios de Cadena:</strong> Synlab, Referencia<br>
+                                • <strong>Clínicas Populares:</strong> Santa Ana, Jesús del Norte<br>
+                                <strong>Ventaja:</strong> Menor costo, resultados confiables
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">⚡ Opciones Rápidas</div>
+                            <div class="exercise-description">
+                                • <strong>Clínica Ricardo Palma</strong><br>
+                                • <strong>Clínica Angloamericana</strong><br>
+                                • <strong>Clínica San Felipe</strong><br>
+                                <strong>Ventaja:</strong> Resultados el mismo día, citas rápidas
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">🎯 Recomendación Específica</div>
+                            <div class="exercise-description">
+                                <strong>Para tu caso:</strong><br>
+                                • <strong>Synlab</strong> (múltiples sedes) - Exámenes S/. 180<br>
+                                • <strong>Centro Médico Cayetano</strong> - Consulta + exámenes S/. 250<br>
+                                • <strong>Hospital Dos de Mayo</strong> - Opción económica S/. 100<br>
+                                <strong>Tip:</strong> Agenda para sábado temprano
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <strong>🚨 SEÑALES DE ALERTA - Ve al médico YA si tienes:</strong><br>
+                    • Dolor en el pecho durante ejercicio<br>
+                    • Falta de aire extrema en reposo<br>
+                    • Mareos frecuentes<br>
+                    • Palpitaciones irregulares<br>
+                    • Hinchazón en pies/tobillos<br>
+                    • Sed excesiva + ganas de orinar mucho
+                </div>
+                
+                <div class="medical-section">
+                    <h3>📅 CRONOGRAMA MÉDICO SUGERIDO</h3>
+                    
+                    <div class="exercise-grid">
+                        <div class="exercise-card">
+                            <div class="exercise-name">📋 Semana 1</div>
+                            <div class="exercise-description">
+                                • Agenda exámenes de sangre para sábado<br>
+                                • Busca endocrinólogo disponible<br>
+                                • Compra tensiómetro digital (opcional)
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">📋 Semana 2</div>
+                            <div class="exercise-description">
+                                • Recoge resultados de laboratorio<br>
+                                • Agenda consulta con endocrinólogo<br>
+                                • Electrocardiograma si es necesario
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-name">📋 Semana 3-4</div>
+                            <div class="exercise-description">
+                                • Consulta con especialista<br>
+                                • Ajusta plan según recomendaciones médicas<br>
+                                • Control de peso semanal
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💰 Presupuesto Total Estimado:</strong><br>
+                    • Exámenes básicos: S/. 150-200<br>
+                    • Consulta especialista: S/. 120-200<br>
+                    • Electrocardiograma: S/. 50-80<br>
+                    • <strong>Total: S/. 320-480</strong><br>
+                    <br>
+                    <strong>💡 Consejo:</strong> Muchas universidades tienen convenios con clínicas. Pregunta en tu centro de estudios por descuentos.
+                </div>
+            </div>
+        </div>
+        
+        <div class="warning-box" style="margin-top: 30px;">
+            <strong>⚠️ IMPORTANTE - Lee esto:</strong><br>
+            • Este plan es una guía general. Los resultados de tus exámenes médicos pueden requerir ajustes<br>
+            • No dejes de lado las clases por el ejercicio. Tu educación es prioridad<br>
+            • La pérdida de peso saludable es 0.5-1 kg por semana<br>
+            • Si sientes dolor inusual durante el ejercicio, detente inmediatamente<br>
+            • Mantén un registro diario de peso y sensaciones para mostrar al médico
+        </div>
+        
+        <div class="tip-box" style="margin-top: 20px;">
+            <strong>🎯 METAS REALISTAS (3 meses):</strong><br>
+            • Peso objetivo: 105-108 kg (pérdida de 7-10 kg)<br>
+            • Mejora en resistencia cardiovascular<br>
+            • Establecimiento de hábitos alimenticios<br>
+            • Aumento de energía y mejor sueño<br>
+            • Reducción de medidas (cintura, brazos)<br>
+            <br>
+            <strong>🏆 Recuerda:</strong> El objetivo no es solo perder peso, sino ganar salud y energía para tu vida universitaria y futuro profesional.
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Ocultar todas las pestañas
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Quitar clase active de botones
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Mostrar pestaña seleccionada
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activar botón correspondiente
+            event.target.classList.add('active');
+        }
+        
+        // Función para mostrar consejos dinámicos
+        function showTip(message) {
+            alert(message);
+        }
+        
+        // Animación suave al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.exercise-card, .diet-day, .stat-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
